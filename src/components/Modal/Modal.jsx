@@ -3,24 +3,24 @@ import { createPortal } from 'react-dom';
 import propTypes from 'prop-types';
 import styles from './Modal.module.css';
 
-const modalRoot = document.querySelector('#modal-root');
+const modalRoot = document.querySelector('#root');
 
 class Modal extends Component {
   componentDidMount() {
-    window.addEventListener('keydown', this.handleCloseByEsc);
+    window.addEventListener('keydown', this.closeByEsc);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleCloseByEsc);
+    window.removeEventListener('keydown', this.closeByEsc);
   }
 
-  handleCloseByEsc = event => {
+  closeByEsc = event => {
     if (event.code === 'Escape') {
       this.props.onClose();
     }
   };
 
-  handleCloseByOverlay = event => {
+  closeByOverlay = event => {
     if (event.target === event.currentTarget) {
       this.props.onClose();
     }
@@ -29,7 +29,7 @@ class Modal extends Component {
   render() {
     const { largeImageURL, tags } = this.props;
     return createPortal(
-      <div className={styles.overlay} onClick={this.handleCloseByOverlay}>
+      <div className={styles.overlay} onClick={this.closeByOverlay}>
         <div className={styles.modal}>
           <img src={largeImageURL} alt={tags} />
         </div>
